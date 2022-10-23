@@ -10,7 +10,7 @@ namespace App;
 // ini_set('display_errors', '0');
 
 require_once('./src/view.php');
-include_once('.src/utils/debug.php');
+include_once('./src/utils/debug.php');
 
 const DEFAULT_ACTION = 'list';
 
