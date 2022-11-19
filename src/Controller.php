@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Exception\NotFoundException;
+
 include_once('./src/view.php');
 require_once('./config/config.php');
 require_once('./src/database.php');
@@ -38,12 +40,32 @@ class Controller
                 if (!empty($data)) {
                     $noteData = [
                         'title' => $data['title'],
-                        'description' => $Data['description'],
+                        'description' => $data['description'],
                     ];
                     $this->database->createNote($noteData);
                     header('Location: /?before=created');
+                    exit;
                 }
-
+                break;
+            case 'show';
+                $page = 'show';
+                $data = $this->getRequestGet();
+                $noteId = (int) $data['id'] ?? null;
+                if (!$noteId) {
+                    header('location: /?error=missingNoteId');
+                    exit;
+                }
+                try {
+                    $note = $this->database->getNote($noteId);
+                } catch (NotFoundException $e) {
+                    header('Location: /?error=noteNotFound');
+                    exit;
+                }
+                $viewParams = [
+                    'title' => 'Moja Notatka',
+                    'description' => 'Opis',
+                    'Note' => $note,
+                ];
                 break;
             default:
                 $page = 'list';
@@ -51,6 +73,7 @@ class Controller
                 $viewParams = [
                     'notes' => $this->database->getNotes(),
                     'before' => $data['before'] ?? null,
+                    'error' => $data['error'] ?? null,
                 ];
                 break;
         }
