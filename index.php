@@ -12,7 +12,7 @@ namespace App;
 require_once('./Exception/AppException.php');
 require_once('./Exception/StorageException.php');
 require_once('./Exception/ConfigurationException.php');
-require_once('./src/Controller.php');
+require_once('./src/NoteController.php');
 require_once('./src/Request.php');
 include_once('./src/utils/debug.php');
 require_once('./config/config.php');
@@ -25,8 +25,8 @@ use Throwable;
 
 $request = new Request($_GET, $_POST);
 try {
-    Controller::initConfiguration($configuration);
-    $controller = new controller($_GET, $_POST);
+    AbstractController::initConfiguration($configuration);
+    $controller = new NoteController($request);
     $controller->run();
 } catch (AppException $e) {
     echo "<h1>Wystąpił błąd w aplikacji</h1>";
@@ -34,4 +34,3 @@ try {
 } catch (Throwable $e) {
     echo "<h1>Wystąpił błąd w aplikacji</h1>";
 }
-dump($e);
