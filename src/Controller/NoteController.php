@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Controller;
 
 use App\Exception\NotFoundException;
 
-require_once('AbstractController.php');
 
 class NoteController extends AbstractController
 {
-    public function CreateAction()
+    public function createAction()
     {
         if ($this->request->hasPost()) {
             $noteData = [
