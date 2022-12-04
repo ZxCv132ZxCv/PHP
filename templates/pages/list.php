@@ -4,6 +4,8 @@
             <?php
             if (!empty($params['error'])) {
 
+
+
                 switch ($params['error']) {
                     case 'noteNotFound':
                         echo 'Notatka nie została znaleziona!';
@@ -14,43 +16,55 @@
                 }
             }
             ?>
-            <div class="message">
-                <?php
-                if (!empty($params['before'])) {
+        </div>
+        <div class="message">
+            <?php
+            if (!empty($params['before'])) {
 
-                    switch ($params['before']) {
-                        case 'created':
-                            echo 'Notatka została utworzona!';
-                            break;
-                    }
+
+
+                switch ($params['before']) {
+                    case 'created':
+                        echo 'Notatka została utworzona!';
+                        break;
+                    case 'edited':
+                        echo 'Notatka zostąła zaktualizowana';
+                        break;
+                    case 'deleted':
+                        echo 'Notatka zostąła usunięta';
+                        break;
                 }
-                ?>
-            </div>
-            <div class="tbl-header">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <thead>
+            }
+            ?>
+        </div>
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Tytuł</th>
+                        <th>Data</th>
+                        <th>Opcje</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                    <?php foreach ($params['notes'] ?? [] as $note) : ?>
                         <tr>
-                            <th>Id</th>
-                            <th>Tytuł</th>
-                            <th>Data</th>
-                            <th>Opcje</th>
+                            <td><?php echo (int) $note['id'] ?></td>
+                            <td><?php echo $note['title'] ?></td>
+                            <td><?php echo $note['created'] ?></td>
+                            <td>
+                                <a href="/?action=show&id=<?php echo (int) $note['id'] ?>"><button>Szczegóły</button></a>
+                                <a href="/?action=delete&id=<?php echo (int) $note['id'] ?>"><button>Usuń</button></a>
+                            </td>
                         </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <tbody>
-                        <?php foreach ($params['notes'] ?? [] as $note) : ?>
-                            <tr>
-                                <td><?php echo (int) $note['id'] ?></td>
-                                <td><?php echo $note['title'] ?></td>
-                                <td><?php echo $note['created'] ?></td>
-                                <td><a href="/?action=show&id=<?php echo (int) $note['id'] ?>">Pokaż</a></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </section>
 </div>
