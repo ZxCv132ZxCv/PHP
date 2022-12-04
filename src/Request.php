@@ -13,7 +13,7 @@ class Request
     {
         $this->get = $get;
         $this->post = $post;
-        $this->server = $server
+        $this->server = $server;
     }
     public function hasPost(): bool
     {
